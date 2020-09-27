@@ -13,13 +13,11 @@ function RecursiveCircles(strokeColor)
         constructor(radius, x, y, rads)
         {
             this.radius = radius;
-            this.start_rads = rads;
+            this.start_rads = this.radians = rads;
             this.center_x = x;
             this.center_y = y;
-            this.radians = rads;
             this.x = this.radius * Math.cos(this.radians);
             this.y = this.radius * Math.sin(this.radians);
-            //console.log("Radius: ", radius, " | Position: ", this.x, this.y);
             this.iterations = 0;
             this.done = false;
         }
@@ -50,15 +48,12 @@ function RecursiveCircles(strokeColor)
             if (this.iterations >= 1)
             {
                 c.beginPath();
-            // c.strokeStyle = "#336600";
                 c.lineWidth = 1;
                 c.moveTo(last_point.x, last_point.y);
                 c.lineTo(this.x, this.y);
                 c.stroke();
                 c.closePath();
             }
-            //c.fillRect(this.x, this.y, 3, 3);
-
         }
     }
 
@@ -66,13 +61,6 @@ function RecursiveCircles(strokeColor)
     circles.push(new Circle(canvas.width / 4, canvas.width / 2, canvas.height / 2, Math.PI / 2));
     circles.push(new Circle(canvas.width / 4, canvas.width / 4, canvas.height / 2, 0));
     circles.push(new Circle(canvas.width / 4, canvas.width * (3/4), canvas.height / 2, Math.PI));
-
-    let colorArray = [
-        '#2DDFFF',
-        '#F5F474',
-        '#E33CC7',
-        '#FFAA47',
-        '#F54D28'];
 
     function animate() 
     {
@@ -90,7 +78,5 @@ function RecursiveCircles(strokeColor)
     if (animate()) return;
 }
 
-//RecursiveCircles("#E5CB90");
 RecursiveCircles("#DA6B23");
-//RecursiveCircles("#FFFFFF");
 

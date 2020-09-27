@@ -1,5 +1,7 @@
-c.fillStyle = "#F25C05";
+c.fillStyle = "#790B18";
 c.fillRect(0, 0, canvas.width, canvas.height);
+
+
 
 function RecursiveCircles(strokeColor)
 {
@@ -31,28 +33,25 @@ function RecursiveCircles(strokeColor)
                 this.x = this.center_x + (this.radius * Math.cos(this.radians));
                 this.y = this.center_y + (this.radius * Math.sin(this.radians));
 
-            // console.log(this.x, this.y);
                 this.draw(last_point);
                 this.iterations ++;
             }
-            else if (this.radius > 6)
+            else
             {
-                console.log("Creating new circles");
                 circles.push(new Circle(this.radius / 2, this.center_x + this.radius, this.center_y, Math.PI));
                 circles.push(new Circle(this.radius / 2, this.center_x - this.radius, this.center_y, 0));
                 circles.push(new Circle(this.radius / 2, this.center_x, this.center_y + this.radius, Math.PI / 2));
                 circles.push(new Circle(this.radius / 2, this.center_x, this.center_y - this.radius, Math.PI * (3/4)));
                 this.done = true;
             }
-            else this.done = true;
         }
         draw(last_point)
         {
             if (this.iterations >= 1)
             {
-                c.beginPath()
+                c.beginPath();
             // c.strokeStyle = "#336600";
-                c.lineWidth = 2;
+                c.lineWidth = 1;
                 c.moveTo(last_point.x, last_point.y);
                 c.lineTo(this.x, this.y);
                 c.stroke();
@@ -77,17 +76,21 @@ function RecursiveCircles(strokeColor)
 
     function animate() 
     {
-        requestAnimationFrame(animate);
-
-        for (let i = 0; i < circles.length; i++)
+        if (circles[circles.length - 1].radius >= (canvas.width / 300))
         {
-            if (!circles[i].done)
+            requestAnimationFrame(animate);
+            for (let i = 0; i < circles.length; i++)
             {
-                circles[i].update();
-            } 
+                if (!circles[i].done) circles[i].update();
+            }
         }
+        else if (strokeColor == "#DA6B23") RecursiveCircles("#790B18")
+        else RecursiveCircles("#DA6B23");
     }
-    animate();
+    if (animate()) return;
 }
 
-RecursiveCircles("#E5CB90");
+//RecursiveCircles("#E5CB90");
+RecursiveCircles("#DA6B23");
+//RecursiveCircles("#FFFFFF");
+

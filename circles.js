@@ -1,9 +1,6 @@
-c.fillStyle = "#F25C05";
-c.fillRect(0, 0, canvas.width, canvas.height);
 
-function RecursiveCircles(strokeColor)
+function RecursiveCircles()
 {
-    c.strokeStyle = strokeColor;
     let circles = [];
 
     class Circle
@@ -35,7 +32,7 @@ function RecursiveCircles(strokeColor)
                 this.draw(last_point);
                 this.iterations ++;
             }
-            else if (this.radius > 6)
+            else if (this.radius > (canvas.width / 300))
             {
                 console.log("Creating new circles");
                 circles.push(new Circle(this.radius / 2, this.center_x + this.radius, this.center_y, Math.PI));
@@ -52,7 +49,7 @@ function RecursiveCircles(strokeColor)
             {
                 c.beginPath()
             // c.strokeStyle = "#336600";
-                c.lineWidth = 2;
+                c.lineWidth = 1;
                 c.moveTo(last_point.x, last_point.y);
                 c.lineTo(this.x, this.y);
                 c.stroke();
@@ -61,6 +58,10 @@ function RecursiveCircles(strokeColor)
             //c.fillRect(this.x, this.y, 3, 3);
 
         }
+        is_finished()
+        {
+            return this.done;
+        }
     }
 
 
@@ -68,26 +69,33 @@ function RecursiveCircles(strokeColor)
     circles.push(new Circle(canvas.width / 4, canvas.width / 4, canvas.height / 2, 0));
     circles.push(new Circle(canvas.width / 4, canvas.width * (3/4), canvas.height / 2, Math.PI));
 
-    let colorArray = [
-        '#2DDFFF',
-        '#F5F474',
-        '#E33CC7',
-        '#FFAA47',
-        '#F54D28'];
+    
 
     function animate() 
     {
         requestAnimationFrame(animate);
-
+        let anim_finished = true;
         for (let i = 0; i < circles.length; i++)
         {
-            if (!circles[i].done)
+            if (!circles[i].is_finished())
             {
                 circles[i].update();
+                anim_finished = false;
             } 
         }
+
+        if (anim_finished) alert(done);
     }
     animate();
 }
 
-RecursiveCircles("#E5CB90");
+let strokeColors = ["#000000", "#EEB0B1", "#000000", "#EEB0B1"];
+let fillColors = ["#F9A602", "#F25C05", "#EEB0B1", "#000000"];
+
+let i = Math.floor(Math.random() * fillColors.length);
+c.fillStyle = fillColors[i];
+c.strokeStyle = strokeColors[i];
+
+c.fillRect(0, 0, canvas.width, canvas.height);
+
+RecursiveCircles()

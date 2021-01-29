@@ -29,7 +29,7 @@ function RecursiveCircles()
                 this.draw(last_point);
                 this.iterations ++;
             }
-            else if (this.radius > (canvas.width / 300))
+            else if (this.radius > (canvas.width / 600))
             {
                 circles.push(new Circle(this.radius / 2, this.center_x + this.radius, this.center_y, Math.PI));
                 circles.push(new Circle(this.radius / 2, this.center_x - this.radius, this.center_y, 0));
@@ -66,18 +66,25 @@ function RecursiveCircles()
 
     function animate() 
     {
-        requestAnimationFrame(animate);
-        let anim_finished = true;
-        for (let i = 0; i < circles.length; i++)
+        if (circles[circles.length - 1].radius >= (canvas.width / 600))
         {
-            if (!circles[i].is_finished())
+            requestAnimationFrame(animate);
+            for (let i = 0; i < circles.length; i++)
             {
-                circles[i].update();
-                anim_finished = false;
-            } 
+                if (!circles[i].is_finished())
+                {
+                    circles[i].update();
+                } 
+            }
         }
-
-        if (anim_finished) alert(done);
+        else 
+        {
+            let temp = c.fillStyle;
+            c.fillStyle = c.strokeStyle;
+            c.strokeStyle = temp;
+            RecursiveCircles();
+        }
+            
     }
     if (animate()) return;
 }
@@ -91,4 +98,4 @@ c.strokeStyle = strokeColors[i];
 
 c.fillRect(0, 0, canvas.width, canvas.height);
 
-RecursiveCircles()
+RecursiveCircles();

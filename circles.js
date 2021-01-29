@@ -8,13 +8,11 @@ function RecursiveCircles()
         constructor(radius, x, y, rads)
         {
             this.radius = radius;
-            this.start_rads = rads;
+            this.start_rads = this.radians = rads;
             this.center_x = x;
             this.center_y = y;
-            this.radians = rads;
             this.x = this.radius * Math.cos(this.radians);
             this.y = this.radius * Math.sin(this.radians);
-            //console.log("Radius: ", radius, " | Position: ", this.x, this.y);
             this.iterations = 0;
             this.done = false;
         }
@@ -28,20 +26,17 @@ function RecursiveCircles()
                 this.x = this.center_x + (this.radius * Math.cos(this.radians));
                 this.y = this.center_y + (this.radius * Math.sin(this.radians));
 
-            // console.log(this.x, this.y);
                 this.draw(last_point);
                 this.iterations ++;
             }
             else if (this.radius > (canvas.width / 300))
             {
-                console.log("Creating new circles");
                 circles.push(new Circle(this.radius / 2, this.center_x + this.radius, this.center_y, Math.PI));
                 circles.push(new Circle(this.radius / 2, this.center_x - this.radius, this.center_y, 0));
                 circles.push(new Circle(this.radius / 2, this.center_x, this.center_y + this.radius, Math.PI / 2));
                 circles.push(new Circle(this.radius / 2, this.center_x, this.center_y - this.radius, Math.PI * (3/4)));
                 this.done = true;
             }
-            else this.done = true;
         }
         draw(last_point)
         {
@@ -55,8 +50,6 @@ function RecursiveCircles()
                 c.stroke();
                 c.closePath();
             }
-            //c.fillRect(this.x, this.y, 3, 3);
-
         }
         is_finished()
         {
@@ -86,7 +79,7 @@ function RecursiveCircles()
 
         if (anim_finished) alert(done);
     }
-    animate();
+    if (animate()) return;
 }
 
 let strokeColors = ["#000000", "#EEB0B1", "#000000", "#EEB0B1"];
